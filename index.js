@@ -82,3 +82,17 @@ rotasTarefa.put('/:id', (req, res) => {
     res.status(200).json(tarefa);
 })
 
+rotasTarefa.delete('/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id) || id <= 0) {
+        return res.status(400).json({ error: 'ID inválido. Deve ser um número inteiro positivo.' });
+    }
+    const index = tarefas.findIndex(tarefa => tarefa.id === id);
+
+    if(index !== -1) {
+        tarefas.splice(index, 1);
+        res.status(204).send();
+    } else {
+        res.status(404).json({ error: 'Tarefa não encontrada' });
+    }
+})
