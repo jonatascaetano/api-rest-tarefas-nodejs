@@ -30,3 +30,18 @@ app.use('/tarefas', rotasTarefa)
 rotasTarefa.get('/', (req, res) => {
     res.status(200).json(tarefas)
 })
+
+rotasTarefa.get('/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id) || id <= 0) {
+        return res.status(400).json({ error: 'ID inválido. Deve ser um número inteiro positivo.' });
+    }
+
+    const tarefa = tarefas.find(tarefa => tarefa.id === id);
+
+    if (!tarefa) {
+        return res.status(404).json({ error: 'Tarefa não encontrada' });
+    }
+
+    res.status(200).json(tarefa);
+})
