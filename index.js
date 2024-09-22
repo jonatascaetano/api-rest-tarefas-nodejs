@@ -27,3 +27,6 @@ let tarefas = [
 const rotasTarefa = express.Router()
 app.use('/tarefas', rotasTarefa)
 
+rotasTarefa.get('/', (req, res) => {
+    res.status(200).json(tarefas)
+})
