@@ -62,3 +62,23 @@ function generateUniqueID() {
 
     return id
 }
+
+rotasTarefa.put('/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id) || id <= 0) {
+        return res.status(400).json({ error: 'ID inválido. Deve ser um número inteiro positivo.' });
+    }
+    const tarefa = tarefas.find(tarefas => tarefas.id === id);
+
+    if (!tarefa) {
+        return res.status(404).json({ error: 'Tarefa não encontrada' });
+    }
+    const { title, body, done } = req.body;
+
+    tarefa.title = title || tarefa.title;
+    tarefa.body = body || tarefa.body;
+    tarefa.done = done || tarefa.done;
+
+    res.status(200).json(tarefa);
+})
+
