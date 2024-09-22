@@ -45,3 +45,20 @@ rotasTarefa.get('/:id', (req, res) => {
 
     res.status(200).json(tarefa);
 })
+
+rotasTarefa.post('/', (req, res) => {
+    const { title, body, done } = req.body;
+    let id = generateUniqueID();
+    let tarefa = new Tarefa(id, title, body, done);
+    tarefas.push(tarefa);
+    res.status(201).json(tarefa);
+})
+
+function generateUniqueID() {
+    let id
+    do {
+        id = Math.floor(Math.random() * 1000) + 1;
+    } while (tarefas.some(tarefa => tarefa.id === id));
+
+    return id
+}
